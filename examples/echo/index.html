@@ -2,6 +2,7 @@
 <html><head>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+    <script src="/data-manager.js"></script>
     <style>
       .box {
           width: 300px;
@@ -42,7 +43,8 @@
 
     <script>
         var sockjs_url = '/echo';
-        var sockjs = new SockJS(sockjs_url);
+        var dataManager = new DataManager(sockjs_url, "xmlhttprequest");
+        //var sockjs = new SockJS(sockjs_url);
         $('#first input').focus();
 
         var div  = $('#first div');
@@ -56,13 +58,14 @@
             div.scrollTop(div.scrollTop()+10000);
         };
 
-        sockjs.onopen    = function()  {print('[*] open', sockjs.protocol);};
-        sockjs.onmessage = function(e) {print('[.] message', e.data);};
-        sockjs.onclose   = function()  {print('[*] close');};
+      //  sockjs.onopen    = function()  {print('[*] open', sockjs.protocol);};
+       // sockjs.onmessage = function(e) {print('[.] message', e.data);};
+        //sockjs.onclose   = function()  {print('[*] close');};
 
         form.submit(function() {
             print('[ ] sending', inp.val());
-            sockjs.send(inp.val());
+            //sockjs.send(inp.val());
+            dataManager.search(inp.va(), {func: function(data){ console.log("received : "+data)}, context: null});
             inp.val('');
             return false;
         });
